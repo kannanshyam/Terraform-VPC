@@ -11,6 +11,9 @@ The code thus generates::
 5. Route table
 6. NAT Gateway
 7. Internet Gateway
+8. Bastion Server (SSH Access)
+9. Webserver (HTTP/HTTPS and SSH access from bastion server)
+10. Database Server (Access from webserver and bastion server)
 
 ### Prerequisite
 
@@ -41,7 +44,7 @@ In accordance with our requirement the variables may be changed.
 - access_key :: AWS_ACCESS_KEY_ID
 - secret ket :: AWS_SECRET_ACCESS_KEY
 - vpc_cidr :: The CIDR block for VPC
-- env :: Assign a tag that can implies the project or env
+- project :: Assign a tag that can implies the project or env
 
 ### Execution
 
@@ -62,4 +65,6 @@ Initialize a working directory containing Terraform configuration.
 
 ## Result
 
-A VPC with a set of 3 public and 3 private subnets will be implimented
+A VPC with a set of 3 public and 3 private subnets will be implimented, which gets integaretd to respective servers. The traffic flow will take place in accordance to the security groups being attached.
+
+The result will also shows the set of public and private ips assigned to each servers as taken up by output.tf
