@@ -17,7 +17,10 @@ resource "aws_vpc" "terra-vpc" {
   enable_dns_support        = true
 
   tags  = {
-    Name  = "${var.env}-vpc"
+    Name  = "${var.project}-vpc"
+  }
+  lifecycle {
+    create_before_destroy   = true
   }
 }
 
@@ -29,7 +32,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id  = aws_vpc.terra-vpc.id
 
   tags  = {
-    Name  = "${var.env}-igw"
+    Name  = "${var.project}-igw"
   }
 }
 
@@ -44,7 +47,7 @@ resource "aws_subnet" "public1" {
   availability_zone           = data.aws_availability_zones.az.names[0]
 
   tags  = {
-    Name  = "${var.env}-public1"
+    Name  = "${var.project}-public1"
   }
 }
 
@@ -59,7 +62,7 @@ resource "aws_subnet" "public2" {
   availability_zone           = data.aws_availability_zones.az.names[1]
 
   tags  = {
-    Name  = "${var.env}-public2"
+    Name  = "${var.project}-public2"
   }
 }
 
@@ -74,7 +77,7 @@ resource "aws_subnet" "public3" {
   availability_zone           = data.aws_availability_zones.az.names[2]
 
   tags  = {
-    Name  = "${var.env}-public3"
+    Name  = "${var.project}-public3"
   }
 }
 
@@ -89,7 +92,7 @@ resource "aws_subnet" "private1" {
   availability_zone           = data.aws_availability_zones.az.names[0]
 
   tags  = {
-    Name  = "${var.env}-private1"
+    Name  = "${var.project}-private1"
   }
 }
 
@@ -104,7 +107,7 @@ resource "aws_subnet" "private2" {
   availability_zone           = data.aws_availability_zones.az.names[1]
 
   tags  = {
-    Name  = "${var.env}-private2"
+    Name  = "${var.project}-private2"
   }
 }
 
@@ -119,7 +122,7 @@ resource "aws_subnet" "private3" {
   availability_zone           = data.aws_availability_zones.az.names[2]
 
   tags  = {
-    Name  = "${var.env}-private3"
+    Name  = "${var.project}-private3"
   }
 }
 
@@ -130,7 +133,7 @@ resource "aws_subnet" "private3" {
 resource "aws_eip" "eip" {
   vpc      = true
   tags = {
-    Name = "${var.env}-eip"
+    Name = "${var.project}-eip"
   }
 }
 
@@ -143,7 +146,7 @@ resource "aws_nat_gateway" "nat-gw" {
   subnet_id         = aws_subnet.public1.id
 
   tags = {
-    Name = "${var.env}-nat-gw"
+    Name = "${var.project}-nat-gw"
   }
 }
 
@@ -159,7 +162,7 @@ resource "aws_route_table" "public-route" {
     gateway_id    = aws_internet_gateway.igw.id
   }
   tags = {
-    Name = "${var.env}-public-route"
+    Name = "${var.project}-public-route"
   }
 }
 
@@ -175,7 +178,7 @@ resource "aws_route_table" "private-route" {
     nat_gateway_id = aws_nat_gateway.nat-gw.id
   }
   tags = {
-    Name = "${var.env}-private-route"
+    Name = "${var.project}-private-route"
   }
 }
 
