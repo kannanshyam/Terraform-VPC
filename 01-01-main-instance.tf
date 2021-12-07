@@ -208,16 +208,17 @@ resource "aws_instance" "webserver" {
 #                  EC2 Instance :: Database
 ###############################################################
 
-resource "aws_instance" "webserver" {
+resource "aws_instance" "database" {
 
   ami                          =  var.ami
   instance_type                =  var.type
   subnet_id                    =  aws_subnet.private.id
   vpc_security_group_ids       =  [ aws_security_group.database.id]
   key_name                     =  aws_key_pair.key.id
+  associate_public_ip_address  =  false
   
   tags = {
-    Name = "${var.project}-webserver"
+    Name = "${var.project}-database"
   }
 }
 
