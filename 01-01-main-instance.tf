@@ -212,8 +212,8 @@ resource "aws_instance" "webserver" {
 
   ami                          =  var.ami
   instance_type                =  var.type
-  subnet_id                    =  aws_subnet.public2.id
-  vpc_security_group_ids       =  [ aws_security_group.webserver.id]
+  subnet_id                    =  aws_subnet.private.id
+  vpc_security_group_ids       =  [ aws_security_group.database.id]
   key_name                     =  aws_key_pair.key.id
   
   tags = {
